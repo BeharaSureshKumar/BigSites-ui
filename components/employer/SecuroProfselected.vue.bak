@@ -1,0 +1,339 @@
+<template>
+  <section id="jobseeker">
+    <form id="appointment-form" role="form" method="post" action="#">
+      <div class="col-md-12 col-sm-12">
+        <div class="col-md-6 col-sm-6">
+          <div class="row">
+            <div class="text-align-center">
+              <div class="div-Table">
+                <div class="div-table-row">
+
+                  <div class="div-table-col3">
+                    <RouterLink to="/publish"><b>Job.Desc</b></RouterLink>
+                  </div>
+                  <div class="div-table-col3">
+                    <RouterLink to="/profselected"><b>Profiles</b></RouterLink>
+                  </div>
+                  <div class="div-table-col3">
+                    <RouterLink to="/profconf1"><b>Confirmed</b></RouterLink>
+                  </div>
+                  <div class="div-table-col3">
+                    <RouterLink to="/profappt"><b>Appointed</b></RouterLink>
+                  </div>
+                </div>
+                <div class="div-table-row1">
+                  <div class="div-table-col3">3</div>
+                  <div class="div-table-col3">6</div>
+                  <div class="div-table-col3">2</div>
+                  <div class="div-table-col3">1</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <h5>View profiles shown interest for the list of JDs published</h5>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <div class="col-md-4 col-sm-4"><b>JD Code</b></div>
+              <div class="col-md-8 col-sm-8"><b>Designation</b></div>
+              <b-collapse class="component" animation="slide" v-for="(collapse, index) of postdata" :key="index"
+                :aria-id="'contentIdForA11y5-' + index">
+
+                <template #trigger="props">
+                  <div role="button" :aria-controls="'contentIdForA11y5-' + index">
+                    <div class="col-md-12 col-sm-12">
+                      <div class="col-md-4 col-sm-4" style="color: blueviolet" v-b-tooltip.hover
+                        title="Click here for Details">{{ collapse.oppurtunity_code }}</div>
+                      <div class="col-md-8 col-sm-8">{{ collapse.oppurtunity_designation }}</div>
+                    </div>
+                  </div>
+                </template>
+
+                <div class="col-md-12 col-sm-12">
+                  <div class="col-md-4 col-sm-4"><b>Prof ID</b></div>
+                  <div class="col-md-8 col-sm-8"><b>Name</b></div>
+                </div>
+
+                <div class="col-md-12 col-sm-12" v-for="(prof, ndx) of collapse.profilers" :key="ndx">
+                  <div class="col-md-4 col-sm-4"><a @click=viewProfile(prof) v-b-tooltip.hover
+                      title="Click here for Profile details" style="color: chocolate">{{ prof.jobseeker_code
+                      }}</a></div>
+                  <div class="col-md-8 col-sm-8">{{ prof.jobseeker_name }}</div>
+                </div>
+              </b-collapse>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-md-6 col-sm-6" v-if="visibledaa">
+          <b-field label="Profile Id" Vertical>
+            <b-input :disabled="disabledFlag" maxlength="15" v-model="profId"></b-input>
+          </b-field>
+
+          <b-field label="Name" Vertical>
+            <b-input :disabled="disabledFlag" maxlength="100" v-model="profName"></b-input>
+          </b-field>
+
+          <b-field label="Gender" Vertical>
+            <b-input :disabled="disabledFlag" maxlength="15" v-model="profGender"></b-input>
+          </b-field>
+        </div> -->
+        <div v-if="visibledaa">
+          <h4 style="color: slateblue;"> Profile(s) - {{ profId }}</h4>
+
+          <div class="div-table">
+            <div class="col-md-12 col-sm-12">
+              <div class="col-md-4 col-sm-4">
+                <b-label class="flright item">Profile Id</b-label>
+              </div>
+              <div class="col-md-1 col-sm-1">
+                <b-label class="flright item">:</b-label>
+              </div>
+              <div class="col-md-7 col-sm-7">
+                {{ profId }}
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+              <div class="col-md-4 col-sm-4">
+                <b-label class="flright item">Name</b-label>
+              </div>
+              <div class="col-md-1 col-sm-1">
+                <b-label class="flright item">:</b-label>
+              </div>
+              <div class="col-md-7 col-sm-7">
+                {{ profName }}
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+              <div class="col-md-4 col-sm-4">
+                <b-label class="flright item">Gender</b-label>
+              </div>
+              <div class="col-md-1 col-sm-1">
+                <b-label class="flright item">:</b-label>
+              </div>
+              <div class="col-md-7 col-sm-7">
+                {{ profGender }}
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+              <div class="col-md-4 col-sm-4">
+                <b-label class="flright item">Mobile</b-label>
+              </div>
+              <div class="col-md-1 col-sm-1">
+                <b-label class="flright item">:</b-label>
+              </div>
+              <div class="col-md-7 col-sm-7">
+                {{ profMobile }}
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+              <div class="col-md-4 col-sm-4">
+                <b-label class="flright item">Email</b-label>
+              </div>
+              <div class="col-md-1 col-sm-1">
+                <b-label class="flright item">:</b-label>
+              </div>
+              <div class="col-md-7 col-sm-7">
+                {{ profEmail }}
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+              <div class="col-md-4 col-sm-4">
+                <b-label class="flright item">D.O.B</b-label>
+              </div>
+              <div class="col-md-1 col-sm-1">
+                <b-label class="flright item">:</b-label>
+              </div>
+              <div class="col-md-7 col-sm-7">
+                {{ profDob }}
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+              <div class="col-md-4 col-sm-4">
+                <b-label class="flright item">Education</b-label>
+              </div>
+              <div class="col-md-1 col-sm-1">
+                <b-label class="flright item">:</b-label>
+              </div>
+              <div class="col-md-7 col-sm-7">
+                {{ profEducation }}
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+              <div class="col-md-4 col-sm-4">
+                <b-label class="flright item">Experience</b-label>
+              </div>
+              <div class="col-md-1 col-sm-1">
+                <b-label class="flright item">:</b-label>
+              </div>
+              <div class="col-md-7 col-sm-7">
+                {{ profExperience }}
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+              <div class="col-md-4 col-sm-4">
+                <b-label class="flright item">Agent code</b-label>
+              </div>
+              <div class="col-md-1 col-sm-1">
+                <b-label class="flright item">:</b-label>
+              </div>
+              <div class="col-md-7 col-sm-7">
+                {{ profAgentCode }}
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+              <div class="col-md-4 col-sm-4">
+                <b-label class="flright item">Created Date</b-label>
+              </div>
+              <div class="col-md-1 col-sm-1">
+                <b-label class="flright item">:</b-label>
+              </div>
+              <div class="col-md-7 col-sm-7">
+                {{ profCreatedDate }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </section>
+
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      visibledaa: false,
+      disabledFlag: true,
+      profId: "",
+      profName: "",
+      profGender: "",
+      profEmail: "",
+      profMobile: "",
+      profEducation: "",
+      profExperience: "",
+      profAgentCode: "",
+      profCreatedDate: "",
+      profDob: "",
+      postdata: [{
+        oppurtunity_code: 'AF47834',
+        oppurtunity_designation: 'Mechanic',
+        profilers: [{
+          jobseeker_code: 'JS91876345',
+          jobseeker_name: 'Uma',
+          jobseeker_gender: 'F',
+          jobseeker_email: 'uma@gamil.com',
+          jobseeker_mobile: '9898789878',
+          jobseeker_dob: '12-11-1995',
+          jobseeker_education: 'MBA',
+          jobseeker_experience: 'Fresher',
+          jobseeker_agent_code: 'AG12346',
+          jobseeker_create_date: '17-04-2025',
+        }, {
+          jobseeker_code: 'JS91876366',
+          jobseeker_name: 'Balu',
+          jobseeker_gender: 'M',
+          jobseeker_email: 'balu@gamil.com',
+          jobseeker_mobile: '9126787667',
+          jobseeker_dob: '09-11-1992',
+          jobseeker_education: 'MBA',
+          jobseeker_experience: '2Years',
+          jobseeker_agent_code: 'AG87983',
+          jobseeker_create_date: '17-04-2025',
+        }, {
+          jobseeker_code: 'JS91876368',
+          jobseeker_name: 'Suresh',
+          jobseeker_gender: 'M',
+          jobseeker_email: 'suresh@gamil.com',
+          jobseeker_mobile: '8989876789',
+          jobseeker_dob: '03-09-2000',
+          jobseeker_education: 'Btech',
+          jobseeker_experience: '5years',
+          jobseeker_agent_code: 'AG90989',
+          jobseeker_create_date: '17-04-2025',
+        }]
+      }, {
+        oppurtunity_code: 'AF48623',
+        oppurtunity_designation: 'Chemist',
+        profilers: [{
+          jobseeker_code: 'JS92876368',
+          jobseeker_name: 'Ramesh',
+          jobseeker_gender: 'M',
+          jobseeker_email: 'ramesh@gamil.com',
+          jobseeker_mobile: '7876789890',
+          jobseeker_dob: '05-01-1994',
+          jobseeker_education: 'Degree',
+          jobseeker_experience: '2years',
+          jobseeker_agent_code: 'AG89878',
+          jobseeker_create_date: '17-04-2025',
+        }, {
+          jobseeker_code: 'JS92876354',
+          jobseeker_name: 'Shylaja',
+          jobseeker_gender: 'F',
+          jobseeker_email: 'shylaja@gamil.com',
+          jobseeker_mobile: '6790989098',
+          jobseeker_dob: '05-01-1991',
+          jobseeker_education: 'CA',
+          jobseeker_experience: '1year',
+          jobseeker_agent_code: 'AG56789',
+          jobseeker_create_date: '17-04-2025',
+        }]
+      }, {
+        oppurtunity_code: 'AF17555',
+        oppurtunity_designation: 'Marketing',
+        profilers: [{
+          jobseeker_code: 'JS93876371',
+          jobseeker_name: 'Kamesh',
+          jobseeker_gender: 'M',
+          jobseeker_email: 'kamesh@gamil.com',
+          jobseeker_mobile: '9871123456',
+          jobseeker_dob: '06-11-1995',
+          jobseeker_education: 'HR',
+          jobseeker_experience: '3years',
+          jobseeker_agent_code: 'AG65678',
+          jobseeker_create_date: '17-04-2025',
+        }]
+      }]
+    }
+  },
+  methods: {
+    viewProfile(p) {
+      this.visibledaa = true
+      this.profId = p.jobseeker_code;
+      this.profName = p.jobseeker_name;
+      this.profGender = p.jobseeker_gender;
+      this.profDob = p.jobseeker_dob;
+      this.profMobile = p.jobseeker_mobile;
+      this.profEducation = p.jobseeker_education;
+      // this.profExperience - p.jobseeker_experience;
+      this.profEmail = p.jobseeker_email;
+      this.profAgentCode = p.jobseeker_agent_code;
+      this.profCreatedDate = p.jobseeker_create_date;
+      this.profExperience =p.jobseeker_experience
+      
+    },
+  }
+}
+</script>
+<style scoped>
+.padding8 {
+  padding-top: 8px;
+}
+
+.flright {
+  float: left;
+}
+
+.item {
+  font-weight: 700;
+  display: flex;
+}
+
+.center {
+  text-align: center;
+  /* border: 1px solid green; */
+}
+</style>
