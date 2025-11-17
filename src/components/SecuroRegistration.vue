@@ -19,19 +19,31 @@
                     </b-select>
                 </b-field>
 
-                <b-field label="Email">
-                    <b-input type="email"
-                        v-model="myemail"
-                        maxlength="50" @input="validateEmail" required>
-                    </b-input>
-                </b-field>
+               <!--email-->
+             <div class="col-md-4 col-sm-4">
+             <label class="item">Email</label><span class="text-danger">*</span>
+             </div>
+             <b-field  label=""
+             :type="myemail.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(myemail) ? 'is-danger' : ''"
+             :message="myemail.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(myemail) 
+              ? 'Enter valid Email' 
+             : ''">
+             <b-input  type="email"  v-model="myemail"  maxlength="50" placeholder="Enter Email"
+             ></b-input>
+             </b-field>
 
-                <b-field label="Password">
-                    <b-input type="password"
-                        v-model="mypassword"
-                        password-reveal>
-                    </b-input>
-                </b-field>
+             <!--password-->
+             <div class="col-md-4 col-sm-4">
+             <label class="item">Password</label><span class="text-danger">*</span>
+             </div>
+
+             <b-field
+             :type="mypassword && mypassword.length < 6 ? 'is-danger' : ''"
+             :message="mypassword && mypassword.length < 6 
+              ? 'Password must be at least 6 characters' 
+              : ''">
+             <b-input type="password" v-model="mypassword"  password-reveal
+             placeholder="Enter Password" required></b-input> </b-field>
 
                 <b-field label="Confirm Password">
                     <b-input type="password"
