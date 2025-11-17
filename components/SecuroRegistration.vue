@@ -32,12 +32,18 @@
              ></b-input>
              </b-field>
 
-                <b-field label="Password">
-                    <b-input type="password"
-                        v-model="mypassword"
-                        password-reveal>
-                    </b-input>
-                </b-field>
+             <!--password-->
+             <div class="col-md-4 col-sm-4">
+             <label class="item">Password</label><span class="text-danger">*</span>
+             </div>
+
+             <b-field
+             :type="mypassword && mypassword.length < 6 ? 'is-danger' : ''"
+             :message="mypassword && mypassword.length < 6 
+              ? 'Password must be at least 6 characters' 
+              : ''">
+             <b-input type="password" v-model="mypassword"  password-reveal
+             placeholder="Enter Password" required></b-input> </b-field>
 
                 <b-field label="Confirm Password">
                     <b-input type="password"
