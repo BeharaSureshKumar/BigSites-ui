@@ -15,7 +15,7 @@
               </b-message>
               <h4>Hello {{ name }}</h4>
               <div class="div-table-col3">
-                <div class="divCell">Email :</div>
+                <!-- <div class="divCell">Email :</div> -->
                 <div class="divCell">Qualification :</div>
                 <div class="divCell">DOB :</div>
                 <div class="divCell">Mobile :</div>
@@ -26,7 +26,7 @@
                 <div class="divCell">Resume :</div>
               </div>
               <div class="div-table-col2">
-                <div class="divCell">{{ this.profileEmail }}</div>
+                <!-- <div class="divCell">{{ this.profileEmail }}</div> -->
                 <div class="divCell">{{ profile_data?.profileEdu }}</div>
                 <div class="divCell">{{ profile_data?.profileDob }}</div>
                 <div class="divCell">{{ profile_data?.profileMob }}</div>

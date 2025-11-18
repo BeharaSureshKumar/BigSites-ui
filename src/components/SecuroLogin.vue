@@ -106,7 +106,7 @@ export default {
                         this.targetUrl = '/jobseeker/details';
                         break;
                         case "E":   // Employee
-                        this.targetUrl = '/employer/jdpost';
+                        this.targetUrl = '/employer/myaccount';
                         break;
                     default:
                         this.errMessage = "User type not recognized.";

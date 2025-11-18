@@ -3,170 +3,166 @@
     <form id="appointment-form" role="form" method="post" action="#">
       <div class="col-md-12 col-sm-12">
         <div class="col-md-6 col-sm-6">
-          <b-message type="is-info" has-icon style="max-width: 550px;">
-            <h4>Securo JOBZ invites "{{ d.employer_name }}".</h4>
+          <!-- <b-message type="is-info" has-icon style="max-width: 550px;">
+            <h4>Securo JOBZ invites "{{ employerEmail }}".</h4>
             <p>Employer's information displayed is duely shared by you</p>
-          </b-message>
+          </b-message> -->
+          <b-message type="is-info" has-icon style="font-size: 12px; max-width: 600px;">
+                <h5>Welcome to Securo JOBZ!!..</h5>
+                <h4>
+                  Employeer Email-ID :
+                  <a @click="viewJd()">{{ employerEmail }}</a>
+                </h4>
+                <h5>Click the above "Email-ID" to update</h5>
+              </b-message>
           <div class="row">
             <ul class="nav navbar-nav navbar-center">
               <li>
+                <!-- Opportunities(3) -->
                 <RouterLink to="/publish">Opportunities(3)</RouterLink>
               </li>
               <li>
-                <RouterLink to="/profapplied">Profiles(6)</RouterLink>
+                <!-- Profiles(6) -->
+                <RouterLink to="/profselected">Profiles(6)</RouterLink>
               </li>
               <li>
+                <!-- Selected(2) -->
                 <RouterLink to="/profconf1">Selected(2)</RouterLink>
               </li>
               <li>
-                <RouterLink to="/profappt">Appointed(1)</RouterLink>
+                <!-- Appointed(1) -->
+                <!-- <RouterLink to="/profappt">Appointed(1)</RouterLink> -->
               </li>
             </ul>
           </div>
-          <h4>My Account<a @click="doedit(d)">(Click to Update)</a></h4>
+          <h4>My Account
+            <!-- <a @click="viewJd()">(Click to Edit)</a> -->
+          </h4>
 
           <div class="div-Table">
             <div class="div-table-col3">
-              <div class="divCell">Employee.Code</div>
-              <div class="divCell">Organization</div>
-              <div class="divCell">Email.ID</div>
-              <div class="divCell">Phone</div>
-              <div class="divCell">Incharge</div>
-              <div class="divCell">Address</div>
-              <div class="divCell">District</div>
-              <div class="divCell">State</div>
-              <div class="divCell">Pin</div>
+              <div class="divCell">Emp.Code:</div>
+              <div class="divCell">Organization :</div>
+              <!-- <div class="divCell">Email.ID :</div> -->
+              <div class="divCell">Phone :</div>
+              <div class="divCell">Incharge :</div>
+              <div class="divCell">Address :</div>
+              <div class="divCell">District :</div>
+              <div class="divCell">State :</div>
+              <div class="divCell">Pin :</div>
             </div>
             <div class="div-table-col2">
-              <div class="divCell">{{ d.employer_code }}</div>
-              <div class="divCell">{{ d.employer_name }}</div>
-              <div class="divCell">{{ d.employer_email }}</div>
-              <div class="divCell">{{ d.employer_mob }}</div>
-              <div class="divCell">{{ d.employer_incharge }}</div>
-              <div class="divCell">{{ d.employer_address }}</div>
-              <div class="divCell">{{ d.employer_district }}</div>
-              <div class="divCell">{{ d.employer_state }}</div>
-              <div class="divCell">{{ d.employer_pin }}</div>
+              <div class="divCell">{{ employer_data?.empCd }}</div>
+              <div class="divCell">{{ employer_data?.empNm }}</div>
+              <!-- <div class="divCell">{{ employee_data?.employer_email }}</div> -->
+              <!-- <div class="divCell">{{ employer_data?.empEmail }}</div> -->
+              <div class="divCell">{{ employer_data?.empMob }}</div>
+              <div class="divCell">{{ employer_data?.empIncharge }}</div>
+              <div class="divCell">{{ employer_data?.empAddress }}</div>
+              <div class="divCell">{{ employer_data?.empDistrict }}</div>
+              <div class="divCell">{{ employer_data?.empState }}</div>
+              <div class="divCell">{{ employer_data?.empPin }}</div>
             </div>
           </div>
         </div>
-        <!-- <div class="col-md-6 col-sm-6">
+        
+        <div class="col-md-6 col-sm-6 col-scroll" v-if="visible">
           
-          
-           <div class = "row">
-            <div class="text-align-center">
-                <div class="div-Table">
-                  <div class="div-table-row">  
-                    <div class="div-table-col6">
-                      <b-field>
-                        <b-input type="password" placeholder="CHANGE PASSWORD" v-model="echngpwd" password-reveal />
-                      </b-field>
-                    </div>      
-                    <div class="div-table-col6">
-                      <b-field>
-                        <b-input type="password" placeholder="CONFIRM CHANGE PASSWORD"v-model="econchngpw" password-reveal />
-                      </b-field>
-                    </div>  
-                    <div class="div-table-col">
-                        <b-button type="is-success" @click="goToAbout">Submit</b-button>
-                    </div>    
-                  </div>
-                </div>  
-            </div>  
-       
-          </div> 
-        </div>   -->
-        <div class="col-md-6 col-sm-6" v-if="visible">
-          <div class="div-table">
-
-            <div class="row">
-              <div class="div-table-col3A">
-                <div class="divCell">Code</div>
-              </div>
-              <div class="div-table-col2A">
-                <div class="divCell"> <b-input maxlength="50" v-model="empcode"></b-input></div>
-              </div>
+             <div class="col-md-12 col-sm-12 mb-0">
+            <div class="col-md-4 col-sm-4">
+              <label class="item">Code</label><span class="text-danger">*</span>
             </div>
-            <div class="row">
-              <div class="div-table-col3A">
-                <div class="divCell">Organization</div>
-              </div>
-              <div class="div-table-col2A">
-                <div class="divCell"> <b-input maxlength="100" v-model="name"></b-input></div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="div-table-col3A">
-                <div class="divCell">Email</div>
-              </div>
-              <div class="div-table-col2A">
-                <div class="divCell"> <b-input  maxlength="100" v-model="email" disabled></b-input></div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="div-table-col3A">
-                <div class="divCell">phone</div>
-              </div>
-              <div class="div-table-col2A">
-                <div class="divCell"><b-input maxlength="100" v-model="mob"></b-input></div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="div-table-col3A">
-                <div class="divCell">Incharge</div>
-              </div>
-              <div class="div-table-col2A">
-                <div class="divCell"><b-input maxlength="100" v-model="incharge"></b-input></div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="div-table-col3A">
-                <div class="divCell">Address</div>
-              </div>
-              <div class="div-table-col2A">
-                <div class="divCell"><b-input maxlength="100" v-model="address"></b-input></div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="div-table-col3A">
-                <div class="divCell">District</div>
-              </div>
-              <div class="div-table-col2A">
-                <div class="divCell"><b-input maxlength="100" v-model="district"></b-input></div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="div-table-col3A">
-                <div class="divCell">State</div>
-              </div>
-              <div class="div-table-col2A">
-                <div class="divCell"><b-input maxlength="100" v-model="state"></b-input></div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="div-table-col3A">
-                <div class="divCell">Pin Code</div>
-              </div>
-              <div class="div-table-col2A">
-                <div class="divCell"><b-input maxlength="100" v-model="pin"></b-input></div>
-              </div>
-            </div>
-
-            <div class="div-table-col2">
-              <!--<div class="divCell"><b-button v-if="canApprove" type="is-success" @click="doApprove">Approve</b-button></div>-->
-              <div class="divCell"><b-button type="is-success" @click="doSubmit">Update</b-button></div>
-
+            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+            <div class="col-md-7 col-sm-7">
+              <b-input maxlength="50" v-model="code" />
             </div>
           </div>
-
-        </div>
+          <div class="col-md-12 col-sm-12 mb-0">
+            <div class="col-md-4 col-sm-4">
+              <label class="item">Organization</label><span class="text-danger">*</span>
+            </div>
+            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+            <div class="col-md-7 col-sm-7">
+              <b-input maxlength="50" v-model="organization" />
+            </div>
+          </div>
+          <!-- <div class="col-md-12 col-sm-12 mb-0">
+            <div class="col-md-4 col-sm-4">
+              <label class="item">Email</label><span class="text-danger">*</span>
+            </div>
+            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+            <div class="col-md-7 col-sm-7">
+              <b-input maxlength="50" v-model="employerEmail" />
+            </div>
+          </div> -->
+<div class="col-md-12 col-sm-12 mb-0">
+            <div class="col-md-4 col-sm-4">
+              <label class="item">Phone</label><span class="text-danger">*</span>
+            </div>
+            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+            <div class="col-md-7 col-sm-7">
+              <b-input maxlength="50" v-model="mob" />
+            </div>
+          </div>
+          <div class="col-md-12 col-sm-12 mb-0">
+            <div class="col-md-4 col-sm-4">
+              <label class="item">Incharge</label><span class="text-danger">*</span>
+            </div>
+            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+            <div class="col-md-7 col-sm-7">
+              <b-input maxlength="50" v-model="incharge" />
+            </div>
+          </div>
+          <div class="col-md-12 col-sm-12 mb-0">
+            <div class="col-md-4 col-sm-4">
+              <label class="item">Address</label><span class="text-danger">*</span>
+            </div>
+            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+            <div class="col-md-7 col-sm-7">
+              <b-input maxlength="50" v-model="address" />
+            </div>
+          </div>
+          <div class="col-md-12 col-sm-12 mb-0">
+            <div class="col-md-4 col-sm-4">
+              <label class="item">District</label><span class="text-danger">*</span>
+            </div>
+            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+            <div class="col-md-7 col-sm-7">
+              <b-input maxlength="50" v-model="district" />
+            </div>
+          </div>
+          <div class="col-md-12 col-sm-12 mb-0">
+            <div class="col-md-4 col-sm-4">
+              <label class="item">State</label><span class="text-danger">*</span>
+            </div>
+            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+            <div class="col-md-7 col-sm-7">
+              <b-input maxlength="50" v-model="state" />
+            </div>
+          </div>
+          <div class="col-md-12 col-sm-12 mb-0">
+            <div class="col-md-4 col-sm-4">
+              <label class="item">Pin Code</label><span class="text-danger">*</span>
+            </div>
+            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+            <div class="col-md-7 col-sm-7">
+              <b-input maxlength="50" v-model="pin" />
+            </div>
+          </div>
+           <!-- :disabled="!isFormValid" -->
+            <b-button
+            class="button-wrapper"
+            type="is-success"
+           
+            @click="doSubmit">Submit</b-button>
+          </div>
       </div>
-
     </form>
   </section>
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
   data() {
@@ -174,9 +170,12 @@ export default {
       disabledFlag: true,
       canApprove: false,
       visible: false,
+      empId: "",
+      employer_data: null,
+      modData: {},
       code: "",
-      name: "",
-      email: "",
+      organization: "",
+      employerEmail: '',
       mob: "",
       incharge: "",
       address: "",
@@ -184,78 +183,208 @@ export default {
       state: "",
       pin: "",
 
-      d:
-      {
-        id: 1,
-        employer_code: 'AFC4834',
-        employer_name: 'AFC INDIA LTD',
-        employer_email: 'mail@gmail.com',
-        employer_mob: '9897676543',
-        employer_incharge: 'Ms.Stella Mary',
-        employer_address: 'Sector-2 Sriperumbatur',
-        employer_district: 'Chennai',
-        employer_state: 'Tamilnadu',
-        employer_pin: '600232'
-      }
     }
   },
+  computed: {
+    isFormValid() {
+      return (
+       this.organization.trim() &&
+    this.employerEmail.trim() &&
+        this.incharge &&
+        this.mob.trim() &&
+        this.district.trim() &&
+        this.address.trim() &&
+        this.state.trim() &&
+        this.pin.trim() 
+      );
+    },
+  },
+  // mounted() {
+  //   const storedLoggedUser = sessionStorage.getItem('loggedUser');
+  //   if (null === storedLoggedUser || undefined === storedLoggedUser || storedLoggedUser.length === 0) {
+  //     this.$router.push('');
+  //   } else {
+  //     let loggedUserObject = null;
+  //     if (storedLoggedUser) {
+  //         try {
+  //           loggedUserObject = JSON.parse(storedLoggedUser);
+  //         } catch (e) {
+  //           loggedUserObject = null;
+  //         }
+  //     }
+
+  //     if (null === loggedUserObject || undefined === loggedUserObject || loggedUserObject.length === 0) {
+  //       console.error("Error parsing JSON from sessionStorage:", e);
+  //     } else {
+  //       if (loggedUserObject.userType !== 'E') {
+  //         this.$router.push('');
+  //       } else {
+  //         this.employerEmail = loggedUserObject.userEmail;
+  //         this.fetchEmployer(loggedUserObject.userId);
+  //       }
+  //     }
+  //   }
+  // },
   mounted() {
-
-    if (sessionStorage.getItem('loggedEmail') === 'admin@afcindia.com') {
-      this.canApprove = true;
+    const storedLoggedUser = sessionStorage.getItem("loggedUser");
+    if (!storedLoggedUser) {
+      this.$router.push("");
+      return;
     }
+
+    let loggedUserObject = null;
+    try {
+      loggedUserObject = JSON.parse(storedLoggedUser);
+    } catch (e) {
+      console.error("Error parsing logged user:", e);
+    }
+
+    if (!loggedUserObject || loggedUserObject.userType !== "E") {
+      this.$router.push("");
+      return;
+    }
+
+    this.userId = loggedUserObject.userId;
+    this.employerEmail = loggedUserObject.userEmail;
+  //  if(this.empId){
+  //         this.fetchEmployer(this.empId);
+  //       }
+        
+  //       this.fetchEmpBasedOnUserId(this.userId);
+  this.fetchEmpBasedOnUserId(this.userId).then(() => {
+    
+    // 🔵 after empId is available, NOW fetch full details
+    if (this.empId) {
+      this.fetchEmployer(this.empId);
+    }
+
+  });
+      // } 
+    // this.fetchEmployer(this.empId);
+    // this.fetchEmpBasedOnUserId(this.userId);
   },
+
   methods: {
-    doedit(d) {
+    async fetchEmpBasedOnUserId(id) {
+      console.log("fetchEmpBasedOnUserId",id);
+      const url = this.$hostName + "/api/v1/employers/user/" + id;
+      try {
+        const res = await axios.get(url);
+        this.employer_data = res.data;
+        this.empId = res.data.empId;
+        console.log("JSON.stringify(res.data)",JSON.stringify(res.data));
+        sessionStorage.setItem("empDetails", JSON.stringify(res.data));
+      } catch (err) {
+        console.error("Error fetching emp: ", err);
+      }
+    },
+    async fetchEmployer(empId) {
+      console.log("gettingg fetch temployee id",empId);
+      const url = this.$hostName + '/api/v1/employers/' + empId;
+      await axios
+      .get(url)
+      .then(res => {
+        console.log('=====>>> ', res.data)
+        sessionStorage.setItem("employerDetails", JSON.stringify(res.data));
+         
+        this.employer_data = res.data;
+        this.populateFormFields(res.data);
+      })
+      .catch(err => {
+        this.employer_data = null;
+        console.error('Error fetching employer: ', err)
+      })
+    },
+    
+populateFormFields(data) {
+      if (!data) return;
+    this.code = data.empCd || "";
+  this.organization = data.empNm || "";
+  this.employerEmail = data.empEmail || "";
+  this.mob = data.empMob || "";
+      this.address = data.empAddress || "";
+      this.district = data.empDistrict || "";
+      this.pin = data.empPin || "";
+      this.state = data.empState || "";
+      this.incharge = data.empIncharge || "";
+      this.userId=data.empUserId||"";
+    },
+     viewJd() {
+      this.disabledFlag = true;
       this.visible = true;
-      this.disabledFlag = true;
-      this.empcode = d.employer_code;
-      this.name = d.employer_name;
-      this.mob = d.employer_mob;
-      this.email = d.employer_email;
-      this.address = d.employer_address;
-      this.district = d.employer_district;
-      this.state = d.employer_state;
-      this.pin = d.employer_pin;
-      this.incharge=d.employer_incharge;
+      this.populateFormFields(this.employer_data);
+    },
 
-     // sessionStorage.setItem('jsProfile', d.agent_code);
-    },
-    viewJd(d) {
-      this.disabledFlag = true;
-      this.code = d.employer_code;
-      this.name = d.employer_name;
-      this.email = d.employer_email;
-      this.mob = d.employer_mob;
 
-      this.incharge = d.employer_incharge;
-      this.address = d.employer_address;
-      this.district = d.employer_district;
-      this.district = d.employer_state;
-      this.pin = d.employer_pin;
-      sessionStorage.setItem('jsProfile', d.seeker_id);
-      sessionStorage.setItem('empName', d.employer_name);
-    },
-    doAdd() {
-      this.disabledFlag = false;
-      // this.seekerId = '';
-      this.code = '';
-      this.name = '';
-      this.email = '';
-      this.mob = '';
-      this.incharge = '';
-      this.address = '';
-      this.district = '';
-      this.state = '';
+    async doSubmit() {
+      // if (!this.isFormValid) {
+      //   this.$buefy.toast.open({
+      //     message
+      //       : "⚠️ Please fill all required fields before submitting.",
+      //     type: "is-danger",
+      //     duration: 3000,
+      //   });
+      //   return;
+      // }
 
-      this.pin = '';
-    },
-    doApprove() {
-      console.log("Approve Button clicked !!")
-    },
-    doSubmit() {
-      console.log("Submit Button clicked !!")
+      const storedLoggedUser = sessionStorage.getItem("loggedUser");
+      const loggedUserObject = JSON.parse(storedLoggedUser);
+
+      this.modData = {
+        empId: this.empId,
+        empUserId:this.userId,
+        empCd:this.code,
+        empEmail: this.employerEmail,
+        empNm: this.organization,
+        empAddress: this.address,
+        empDistrict: this.district,
+        empPin: this.pin,
+        empState: this.state,
+        empIncharge: this.incharge,
+        empApprovalFlag:'Y',
+        empCreateDate:'',
+        empDeleteFlag:'N',
+        empMob:this.mob
+       
+      };
+
+      try {
+        let res;
+       // console.log("res.data.empId",res.data.empId);
+       // console.log("id",this.empId);
+        if (this.empId) {
+          const url = `${this.$hostName}/api/v1/employers/${this.empId}`;
+          res = await axios.patch(url, this.modData);
+        } else {
+          const url = `${this.$hostName}/api/v1/employers`;
+          res = await axios.post(url, this.modData);
+        }
+
+        this.empId = res.data.empId;
+        await this.fetchEmployer(this.empId);
+
+        this.$buefy.toast.open({
+          message: "✅ Record saved successfully!",
+          type: "is-success",
+          duration: 3000,
+        });
+
+        this.visible = false;
+      } catch (err) {
+        console.error("Error saving profile:", err);
+        this.$buefy.toast.open({
+          message: "❌ Error saving record. Please try again.",
+          type: "is-danger",
+          duration: 3000,
+        });
+      }
     },
   }
 }
 </script>
+<style scoped>
+.col-scroll {
+  max-height: 360px;
+  overflow-y: scroll;
+}
+</style>
