@@ -4,8 +4,8 @@
       <div class="col-md-12 col-sm-12">
         <div class="col-md-6 col-sm-6">
           <b-message type="is-info" has-icon style="max-width: 550px;">
-            <h4>Securo JOBZ invites "{{ employerEmail }}".</h4>
-            <p>Employer's information displayed is duely shared by you</p>
+            <h4>Securo JOBZ.</h4>
+            <p>Click one of the below opportunities to view or edit</p>
           </b-message>
           <div class="row">
             <ul class="nav navbar-nav navbar-center">
@@ -21,79 +21,105 @@
                 <!-- Selected(2) -->
                 <RouterLink to="/profconf1">Selected(2)</RouterLink>
               </li>
-              <li>
-                <!-- Appointed(1) -->
-                <!-- <RouterLink to="/profappt">Appointed(1)</RouterLink> -->
-              </li>
             </ul>
           </div>
-          <h4>My Account<a @click="viewJd(employee_data)">(Click to Edit)</a></h4>
 
-          <div class="div-Table">
-            <div class="div-table-col3">
-              <div class="divCell">Employee.Code:</div>
-              <div class="divCell">Organization :</div>
-              <div class="divCell">Email.ID :</div>
-              <div class="divCell">Phone :</div>
-              <div class="divCell">Incharge :</div>
-              <div class="divCell">Address :</div>
-              <div class="divCell">District :</div>
-              <div class="divCell">State :</div>
-              <div class="divCell">Pin :</div>
-            </div>
-            <div class="div-table-col2">
-              <div class="divCell">{{ employee_data?.employer_code }}</div>
-              <div class="divCell">{{ employee_data?.empNm }}</div>
-              <div class="divCell">{{ employee_data?.employer_email }}</div>
-              <div class="divCell">{{ employee_data?.employerEmail }}</div>
-              <div class="divCell">{{ employee_data?.empIncharge }}</div>
-              <div class="divCell">{{ employee_data?.empAddress }}</div>
-              <div class="divCell">{{ employee_data?.empDistrict }}</div>
-              <div class="divCell">{{ employee_data?.empState }}</div>
-              <div class="divCell">{{ employee_data?.empPin }}</div>
-            </div>
-          </div>
-        </div>
+           <div class = "row">
+                        <h4>Opportunities Published</h4>
+                    </div>
+                    <div class="row">    
+                        <div>
+                            <div class="div-table" id="borderLeft">
+                                <div class="div-table" style="background-color: seashell;">
+                                    <div class="div-table-row" style="background-color: #ccc;">
+                                        <div class="div-table-col1"><b>Oppurtunity Code</b></div>
+                                        <div class="div-table-col6"><b>Designation</b></div>
+                                        <div class="div-table-col1"><b>Last Date</b></div>
+                                    </div>
+
+                                    <div class="div-table-row" v-for="d in postdata" :key="d.id">
+                                        <div class="div-table-col1">
+                                            <a @click="viewJd(d)"><span style="color: blueviolet">{{ d.oppurtunityCode }}</span></a>
+                                        </div>
+
+                                        <div class="div-table-col6">{{ d.oppurtunityDesignation}}</div>
+                                         <div class="div-table-col1">{{ toUI(d.oppurtunityLastDate)}}</div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             
+                   
         
-        <div class="col-md-6 col-sm-6 col-scroll" v-if="visible">
-          
+        <div class="col-md-6 col-sm-6 col-scroll" v-if="!visible">
              <div class="col-md-12 col-sm-12 mb-0">
             <div class="col-md-4 col-sm-4">
               <label class="item">Code</label><span class="text-danger">*</span>
             </div>
             <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
             <div class="col-md-7 col-sm-7">
-              <b-input maxlength="50" v-model="code" />
+              <b-input maxlength="10" v-model="code" />
             </div>
           </div>
+
           <div class="col-md-12 col-sm-12 mb-0">
             <div class="col-md-4 col-sm-4">
-              <label class="item">Organization</label><span class="text-danger">*</span>
+              <label class="item">Designation</label><span class="text-danger">*</span>
             </div>
             <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
             <div class="col-md-7 col-sm-7">
-              <b-input maxlength="50" v-model="name" />
+              <b-input maxlength="50" v-model="designation" />
             </div>
           </div>
+          <!--Email-->
           <div class="col-md-12 col-sm-12 mb-0">
             <div class="col-md-4 col-sm-4">
               <label class="item">Email</label><span class="text-danger">*</span>
             </div>
             <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
             <div class="col-md-7 col-sm-7">
-              <b-input maxlength="50" v-model="email" />
+              <b-field  label=""
+             :type="email.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? 'is-danger' : ''"
+             :message="email.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) 
+              ? 'Enter valid Email' 
+             : ''">
+             <b-input  type="email"  v-model="email"  maxlength="50" placeholder="Enter Email"
+             ></b-input>
+             </b-field>
             </div>
           </div>
-<div class="col-md-12 col-sm-12 mb-0">
-            <div class="col-md-4 col-sm-4">
-              <label class="item">Phone</label><span class="text-danger">*</span>
-            </div>
-            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
-            <div class="col-md-7 col-sm-7">
-              <b-input maxlength="50" v-model="mob" />
-            </div>
-          </div>
-          <div class="col-md-12 col-sm-12 mb-0">
+
+          <!--Phone-->
+         <div class="col-md-12 col-sm-12 mb-0">
+         <div class="col-md-4 col-sm-4">
+          <label class="item">Phone</label><span class="text-danger">*</span>
+         </div>
+         <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+         <div class="col-md-7 col-sm-7">
+
+         <b-input
+           v-model="mob"
+          placeholder="Enter 10-digit mobile number"
+          type="tel"
+           maxlength="10"
+          @input="validateMobile"
+          :class="{ 'is-danger': mobTouched && (mobError || lengthError) }"/>
+
+          <p v-if="mobTouched && mobError" class="help is-danger">
+          Please enter only numbers.
+         </p>
+
+         <p v-if="mobTouched && lengthError" class="help is-danger">
+         Mobile number must be 10 digits.
+         </p>
+         </div>
+         </div>
+
+         <!--incharge-->
+         <div class="col-md-12 col-sm-12 mb-0">
             <div class="col-md-4 col-sm-4">
               <label class="item">Incharge</label><span class="text-danger">*</span>
             </div>
@@ -102,47 +128,44 @@
               <b-input maxlength="50" v-model="incharge" />
             </div>
           </div>
-          <div class="col-md-12 col-sm-12 mb-0">
+
+          <!--Job Location-->
+         <div class="col-md-12 col-sm-12 mb-0">
             <div class="col-md-4 col-sm-4">
-              <label class="item">Address</label><span class="text-danger">*</span>
+              <label class="item">Job Location</label><span class="text-danger">*</span>
             </div>
             <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
             <div class="col-md-7 col-sm-7">
-              <b-input maxlength="50" v-model="address" />
+              <b-input maxlength="50" v-model="location" />
+            </div>
+          </div>
+
+          <div class="col-md-12 col-sm-12 mb-5">
+            <div class="col-md-4 col-sm-4">
+              <label class="item">Last Date to Apply</label><span class="text-danger">*</span>
+            </div>
+            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+            <div class="col-md-7 col-sm-7">
+              <b-datepicker v-model="lastDate" placeholder="dd/mm/yyyy" icon="calendar-today"
+              :min-date="today" :date-formatter="toUI" :date-parser="str => new Date(str.split('/').reverse().join('-'))">
+              </b-datepicker>
+        
             </div>
           </div>
           <div class="col-md-12 col-sm-12 mb-0">
             <div class="col-md-4 col-sm-4">
-              <label class="item">District</label><span class="text-danger">*</span>
+              <label class="item">Job Description</label><span class="text-danger">*</span>
             </div>
             <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
             <div class="col-md-7 col-sm-7">
-              <b-input maxlength="50" v-model="district" />
+              <b-input type="textarea" maxlength="500" v-model="description" rows="4"/>
             </div>
           </div>
-          <div class="col-md-12 col-sm-12 mb-0">
-            <div class="col-md-4 col-sm-4">
-              <label class="item">State</label><span class="text-danger">*</span>
-            </div>
-            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
-            <div class="col-md-7 col-sm-7">
-              <b-input maxlength="50" v-model="state" />
-            </div>
-          </div>
-          <div class="col-md-12 col-sm-12 mb-0">
-            <div class="col-md-4 col-sm-4">
-              <label class="item">Pin Code</label><span class="text-danger">*</span>
-            </div>
-            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
-            <div class="col-md-7 col-sm-7">
-              <b-input maxlength="50" v-model="pin" />
-            </div>
-          </div>
-           <!-- :disabled="!isFormValid" -->
+
             <b-button
             class="button-wrapper"
             type="is-success"
-           
+           :disabled="!isFormValid"
             @click="doSubmit">Submit</b-button>
           </div>
       </div>
@@ -151,193 +174,211 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   data() {
     return {
-      disabledFlag: true,
-      canApprove: false,
-      visible: false,
-      empId: "",
-      employee_data: null,
-      modData: {},
+      oppurtunityEmployerId: "",
+      designation: "",
+      email: "",
       code: "",
-      organization: "",
-      employerEmail: '',
-      mob: "",
+      lastDate: null,
+      description: "",
       incharge: "",
-      address: "",
-      district: "",
-      state: "",
-      pin: "",
+      location: "",
+      mob: "",
+      mobTouched: false,
+      mobError: false,
+      lengthError: false,
+      today: new Date(),
+       postdata: [],
+          }
+       },
+    
 
-    }
-  },
   computed: {
+    emailValid() {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email);
+    },
+
     isFormValid() {
       return (
-        this.organization.trim() &&
-        this.email.trim() &&
-        this.incharge &&
-        this.mob.trim() &&
-        this.district.trim() &&
-        this.address.trim() &&
-        this.state.trim() &&
-        this.pin.trim() 
+        this.designation.trim() !== "" &&
+        this.emailValid &&
+        this.incharge.trim() !== "" &&
+        this.location.trim() !== "" &&
+        this.mob.length === 10 &&
+        this.description.trim() !== "" &&
+        this.lastDate !== null &&
+        !this.mobError &&
+        !this.lengthError
       );
     },
   },
-  // mounted() {
-  //   const storedLoggedUser = sessionStorage.getItem('loggedUser');
-  //   if (null === storedLoggedUser || undefined === storedLoggedUser || storedLoggedUser.length === 0) {
-  //     this.$router.push('');
-  //   } else {
-  //     let loggedUserObject = null;
-  //     if (storedLoggedUser) {
-  //         try {
-  //           loggedUserObject = JSON.parse(storedLoggedUser);
-  //         } catch (e) {
-  //           loggedUserObject = null;
-  //         }
-  //     }
+  
+    methods: {
+      async fetchAll() {
+  try {
+    const res = await axios.get(`${this.$hostName}/api/v1/oppurtunity`);
+    this.postdata = res.data;
+  } catch (err) {
+    console.error("Fetch All Error:", err);
+  }
+},
 
-  //     if (null === loggedUserObject || undefined === loggedUserObject || loggedUserObject.length === 0) {
-  //       console.error("Error parsing JSON from sessionStorage:", e);
-  //     } else {
-  //       if (loggedUserObject.userType !== 'E') {
-  //         this.$router.push('');
-  //       } else {
-  //         this.employerEmail = loggedUserObject.userEmail;
-  //         this.fetchEmployer(loggedUserObject.userId);
-  //       }
-  //     }
-  //   }
-  // },
-  mounted() {
-    const storedLoggedUser = sessionStorage.getItem("loggedUser");
-    if (!storedLoggedUser) {
-      this.$router.push("");
-      return;
-    }
+        viewJd(d) {
+  this.visible = false;
+  this.code = d.oppurtunityCode;
+  this.designation = d.oppurtunityDesignation;
+  this.email = d.oppurtunityEmail;
+  this.mob = d.oppurtunityPhone;
+  this.incharge = d.oppurtunityIncharge;
+  this.description = d.oppurtunityJobDescription;
+  this.location = d.oppurtunityLocation;
+  this.lastDate = new Date(d.oppurtunityLastDate);
+  this.postDate = d.oppurtunityCreateDate;
 
-    let loggedUserObject = null;
-    try {
-      loggedUserObject = JSON.parse(storedLoggedUser);
-    } catch (e) {
-      console.error("Error parsing logged user:", e);
-    }
+  // Needed for PATCH update
+  this.oppurtunityEmployerId = d.oppurtunityId;
+},
+   
+    formatDate(date) {
+  if (!date) return null;
+  const year = date.getFullYear();
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  const day = ("0" + date.getDate()).slice(-2);
+  const hours = ("0" + date.getHours()).slice(-2);
+  const minutes = ("0" + date.getMinutes()).slice(-2);
+  const seconds = ("0" + date.getSeconds()).slice(-2);
 
-    if (!loggedUserObject || loggedUserObject.userType !== "E") {
-      this.$router.push("");
-      return;
-    }
-
-    this.userId = loggedUserObject.userId;
-    this.employerEmail = loggedUserObject.userEmail;
-    //this.fetchProfileData(loggedUserObject.userId);
-    this.fetchEmployer(this.empId);
-  },
-
-  methods: {
-    async fetchEmployer(empId) {
-      console.log("gettingg fetch temployee id",empId);
-      const url = this.$hostName + '/api/v1/employers/' + empId;
-      await axios
-      .get(url)
-      .then(res => {
-        console.log('=====>>> ', res.data)
-        sessionStorage.setItem("employerDetails", JSON.stringify(res.data));
-        this.employer_data = res.data
-      })
-      .catch(err => {
-        this.employer_data = null;
-        console.error('Error fetching employer: ', err)
-      })
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+},
+// backend gets proper yyyy-mm-ddT00:00:00
+toBackend(dateObj) {
+  if (!dateObj) return null;
+  return dateObj.toISOString(); 
+},
+toUI(dateStr) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr);
+  return (
+    ("0" + d.getDate()).slice(-2) + "/" +
+    ("0" + (d.getMonth() + 1)).slice(-2) + "/" +
+    d.getFullYear()
+  );
+},
+    validateMobile(e) {
+      this.mobTouched = true;
+      let value = e.target.value;
+      if (!/^[0-9]*$/.test(value)) {
+        this.mobError = true;
+      } else {
+        this.mobError = false;
+      }
+      
+      value = value.replace(/[^0-9]/g, "").slice(0, 10);
+      this.mob = value;
+      this.lengthError = value.length > 0 && value.length !== 10;
     },
     
-populateFormFields(data) {
-      if (!data) return;
-      this.organization = data.empNm || "";
-      this.employerEmail=data.empEmail
-      this.address = data.empAddress || "";
-      this.district = data.empDistrict || "";
-      this.pin = data.empPin || "";
-      this.state = data.empState || "";
-      this.incharge = data.empIncharge || "";
-    },
-     viewJd(d) {
-      this.disabledFlag = true;
-      this.visible = true;
-      this.populateFormFields(d);
-    },
+    async fetchEmployer(id) {
+      if (!id) return;
 
+      try {
+        const res = await axios.get(
+          `${this.$hostName}/api/v1/oppurtunity/${id}`
+        );
+
+        this.employee_data = res.data;
+
+        this.code = res.data.oppurtunityCode;
+        this.designation = res.data.oppurtunityDesignation;
+        this.email = res.data.oppurtunityEmail;
+        this.description = res.data.oppurtunityJobDescription;
+        this.incharge = res.data.oppurtunityIncharge;
+        this.location = res.data.oppurtunityLocation;
+        this.mob = res.data.oppurtunityPhone;
+        const d = new Date (res.data.oppurtunityLastDate);
+        this.lastDate = d;
+        this.formattedLastDate = this.toUI(res.data.oppurtunityLastDate);
+
+      } catch (err) {
+        console.error("Fetch Error:", err);
+      }
+    },
 
     async doSubmit() {
-      // if (!this.isFormValid) {
-      //   this.$buefy.toast.open({
-      //     message
-      //       : "⚠️ Please fill all required fields before submitting.",
-      //     type: "is-danger",
-      //     duration: 3000,
-      //   });
-      //   return;
-      // }
+      if (!this.isFormValid) {
+        this.$buefy.toast.open({
+          message: " Please fill all required fields correctly.",
+          type: "is-danger",
+          duration: 3000,
+        });
+        return;
+      }
 
-      const storedLoggedUser = sessionStorage.getItem("loggedUser");
-      const loggedUserObject = JSON.parse(storedLoggedUser);
-
+      
       this.modData = {
-        empId: this.empId,
-        empCd:this.code,
-        empEmail: this.employerEmail,
-        empNm: this.organization,
-        empAddress: this.address,
-        empDistrict: this.district,
-        empPin: this.pin,
-        empState: this.state,
-        empIncharge: this.incharge,
-        empApprovalFlag:'Y',
-        empCreateDate:'',
-        empDeleteFlag:'N',
-        empMob:this.mob
-       
+        oppurtunityCode: this.code,
+        oppurtunityEmployerId: this.oppurtunityEmployerId || 1,
+       oppurtunityDesignation: this.designation,
+       oppurtunityJobDescription: this.description,
+       oppurtunityLastDate: this.formatDate(this.lastDate),
+       oppurtunityEmail: this.email,
+       oppurtunityPhone: this.mob,
+       oppurtunityIncharge: this.incharge,
+       oppurtunityLocation: this.location,
+       oppurtunityCreateDate: new Date().toLocaleString()
       };
 
       try {
         let res;
-       // console.log("res.data.empId",res.data.empId);
-       // console.log("id",this.empId);
-        if (this.empId) {
-          const url = `${this.$hostName}/api/v1/employers/${this.empId}`;
-          res = await axios.patch(url, this.modData);
-        } else {
-          const url = `${this.$hostName}/api/v1/employers`;
-          res = await axios.post(url, this.modData);
+        if (!this.oppurtunityEmployerId) {
+          res = await axios.post(
+            `${this.$hostName}/api/v1/oppurtunity`,
+            this.modData
+          );
+         await this.fetchAll();
+          this.$buefy.toast.open({
+            message: " Record added successfully!",
+            type: "is-success",
+            duration: 3000,
+          });
+          return;
         }
 
-        this.empId = res.data.empId;
-        await this.fetchEmployer(this.empId);
-
+  
+        res = await axios.patch(
+          `${this.$hostName}/api/v1/oppurtunity/${this.oppurtunityEmployerId}`,
+         this.modData
+        );
+        await this.fetchAll();
         this.$buefy.toast.open({
-          message: "✅ Record saved successfully!",
+          message: " Updated successfully!",
           type: "is-success",
           duration: 3000,
         });
 
-        this.visible = false;
       } catch (err) {
-        console.error("Error saving profile:", err);
+        console.error("=== API ERROR ===");
+        console.log(err.response?.data);
+
         this.$buefy.toast.open({
-          message: "❌ Error saving record. Please try again.",
+          message: " Error saving record.",
           type: "is-danger",
           duration: 3000,
         });
       }
     },
-  }
-}
+  },
+
+ mounted() {
+  this.fetchAll();
+},
+};
 </script>
+
 <style scoped>
 .col-scroll {
   max-height: 360px;
