@@ -13,24 +13,26 @@
                 </h4>
                 <h5>Click the above "Email-ID" to update</h5>
               </b-message>
-              <h4>Hello {{ name }}</h4>
+              <h4>Hello {{ profile_data?.profileNm }}</h4>
               <div class="div-table-col3">
-                <!-- <div class="divCell">Email :</div> -->
+                <div class="divCell">Gender :</div>
                 <div class="divCell">Qualification :</div>
                 <div class="divCell">DOB :</div>
                 <div class="divCell">Mobile :</div>
                 <div class="divCell">Address :</div>
+                <div class="divCell">State :</div>
                 <div class="divCell">District :</div>
                 <div class="divCell">Pin :</div>
                 <div class="divCell">Experience :</div>
                 <div class="divCell">Resume :</div>
               </div>
               <div class="div-table-col2">
-                <!-- <div class="divCell">{{ this.profileEmail }}</div> -->
+                <div class="divCell">{{ profile_data?.profileGender }}</div>
                 <div class="divCell">{{ profile_data?.profileEdu }}</div>
                 <div class="divCell">{{ profile_data?.profileDob }}</div>
                 <div class="divCell">{{ profile_data?.profileMob }}</div>
                 <div class="divCell">{{ profile_data?.profileAddr }}</div>
+                <div class="divCell">{{ profile_data?.profileState }}</div>
                 <div class="divCell">{{ profile_data?.profileDist }}</div>
                 <div class="divCell">{{ profile_data?.profilePin }}</div>
                 <div class="divCell">{{ profile_data?.profileExp }}</div>
@@ -50,6 +52,23 @@
             <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
             <div class="col-md-7 col-sm-7">
               <b-input maxlength="50" v-model="name" :class="{ 'is-danger': !name.trim() && !isFormValid }" />
+            </div>
+          </div>
+          <div class="col-md-12 col-sm-12 mb-0">
+            <div class="col-md-4 col-sm-4">
+              <label class="item">Gender</label><span class="text-danger">*</span>
+            </div>
+            <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+            <div class="col-md-7 col-sm-7">
+              <b-select v-model="gender" placeholder="Select Gender" required 
+              style="width:100%;"
+              :class="{ 'is-danger': !gender}">
+            <option value="">--Select--</option>
+            <option value="Male"> Male</option>
+            <option value="Female"> Female </option>
+             
+            </b-select>
+              <!-- <b-input maxlength="50" v-model="name" :class="{ 'is-danger': !name.trim() && !isFormValid }" /> -->
             </div>
           </div>
 
@@ -119,13 +138,47 @@
               <b-input maxlength="100" v-model="addr" />
             </div>
           </div>
+<div class="col-md-12 col-sm-12 mb-0">
+  <div class="col-md-4 col-sm-4"><label class="item">State</label><span class="text-danger">*</span></div>
+  <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+  <div class="col-md-7 col-sm-7">
+    <b-select 
+      v-model="state" 
+      placeholder="Select State"
+      style="width:100%;"
+      :class="{ 'is-danger': !state }"
+    >
+      <option value="">--Select--</option>
+      <option v-for="s in stateList" :key="s" :value="s">{{ s }}</option>
+    </b-select>
 
+    <p v-if="!state" class="help is-danger">Please select a state.</p>
+  </div>
+</div>
           <!-- District -->
-          <div class="col-md-12 col-sm-12 mb-0">
+          <!-- <div class="col-md-12 col-sm-12 mb-0">
             <div class="col-md-4 col-sm-4"><label class="item">District</label><span class="text-danger">*</span></div>
             <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
             <div class="col-md-7 col-sm-7"><b-input maxlength="100" v-model="dist" /></div>
-          </div>
+          </div> -->
+          <!-- :disabled="districtList.length === 0" -->
+          <div class="col-md-12 col-sm-12 mb-0">
+  <div class="col-md-4 col-sm-4"><label class="item">District</label><span class="text-danger">*</span></div>
+  <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
+  <div class="col-md-7 col-sm-7">
+    <b-select 
+      v-model="dist"
+      placeholder="Select District"
+      style="width:100%;"
+      :class="{ 'is-danger': !dist }"
+    >
+      <option value="">--Select--</option>
+      <option v-for="d in districtList" :key="d" :value="d">{{ d }}</option>
+    </b-select>
+
+    <p v-if="!dist" class="help is-danger">Please select a district.</p>
+  </div>
+</div>
 
           <!-- Pincode -->
           <div class="col-md-12 col-sm-12 mb-0">
@@ -145,7 +198,8 @@
           <div class="col-md-12 col-sm-12 mb-5">
             <div class="col-md-4 col-sm-4"><label class="item">Experience</label><span class="text-danger">*</span></div>
             <div class="col-md-1 col-sm-1"><label class="item">:</label></div>
-            <div class="col-md-7 col-sm-7"><b-select v-model="exp" placeholder="Select Experience" required 
+            <div class="col-md-7 col-sm-7">
+              <b-select v-model="exp" placeholder="Select Experience" required 
               style="width:100%;"
               :class="{ 'is-danger': !exp}">
             <option value="">--select--</option>
@@ -185,7 +239,36 @@
 import axios from "axios";
 export default {
   data() {
+    
     return {
+      state: "",
+      districtList: [],
+stateList: [
+  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+  "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand",
+  "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
+  "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab",
+  "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+  "Uttar Pradesh", "Uttarakhand", "West Bengal",
+  "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli",
+  "Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep",
+  "Puducherry"
+],
+districtList: [
+  // Telangana
+  "Adilabad", "Bhadradri Kothagudem", "Hyderabad", "Jagtial", "Jangaon",
+  "Jayashankar Bhupalpally", "Jogulamba Gadwal", "Kamareddy", "Karimnagar",
+  "Khammam", "Komaram Bheem", "Mahabubabad", "Mahabubnagar", "Mancherial",
+  "Medak", "Medchal–Malkajgiri", "Mulugu", "Nagarkurnool", "Nalgonda",
+  "Narayanpet", "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla",
+  "Rangareddy", "Sangareddy", "Siddipet", "Suryapet", "Vikarabad",
+  "Wanaparthy", "Warangal Rural", "Warangal Urban", "Yadadri Bhuvanagiri",
+
+  // Andhra Pradesh
+  "Anantapur", "Chittoor", "East Godavari", "Guntur", "Kadapa", "Krishna",
+  "Kurnool", "Nellore", "Prakasam", "Srikakulam", "Visakhapatnam",
+  "Vizianagaram", "West Godavari"
+],
       profileId: "",
       //profileEmail: "",
       profileEmail: JSON.parse(sessionStorage.getItem("loggedUser") || "{}").userEmail || "",
@@ -195,7 +278,7 @@ export default {
       profile_data: null,
       modData: {},
       profileApproveFlag: "N",
-
+gender:"",
       name: "",
       qual: "",
       dob: null,
@@ -211,12 +294,15 @@ export default {
   computed: {
     isFormValid() {
       return (
+        this.gender.trim()&&
         this.name.trim() &&
+        this.dist.trim() &&
         this.qual.trim() &&
         this.dob &&
         this.mob.trim() &&
         this.profileEmail.trim() &&
         this.addr.trim() &&
+        this.state.trim() &&
         this.dist.trim() &&
         this.pin.trim() &&
         this.exp.trim() &&
@@ -245,32 +331,10 @@ export default {
 
   mounted() {
     this.setLoggedUserData();
-  //   const storedLoggedUser = sessionStorage.getItem("loggedUser");
-  //   if (!storedLoggedUser) {
-  //     this.$router.push("");
-  //     return;
-  //   }
-
-  //   let loggedUserObject = null;
-  //   try {
-  //     loggedUserObject = JSON.parse(storedLoggedUser);
-  //   } catch (e) {
-  //     console.error("Error parsing logged user:", e);
-  //   }
-
-  //   if (!loggedUserObject || loggedUserObject.userType !== "J") {
-  //     this.$router.push("");
-  //     return;
-  //   }
-
-  //   this.userId = loggedUserObject.userId;
-  //   this.profileEmail = loggedUserObject.userEmail || "";
-  //  // this.profileEmail = loggedUserObject.userEmail;
-  //   this.fetchProfileData(loggedUserObject.userId);
-  //   this.fetchProfileBasedOnUserId(loggedUserObject.userId);
-    
+  
   },
 methods: {
+ 
     setLoggedUserData() {
       const storedLoggedUser = sessionStorage.getItem("loggedUser");
 
@@ -331,8 +395,10 @@ methods: {
 
     populateFormFields(data) {
       if (!data) return;
+     
       this.profileId=data.profileId || "",
       this.name = data.profileNm || "";
+      this.gender=data.profileGender || "";
       this.qual = data.profileEdu || "";
       this.dob = data.profileDob ? new Date(data.profileDob) : null;
       this.mob = data.profileMob || "";
@@ -341,6 +407,7 @@ methods: {
       this.pin = data.profilePin || "";
       this.exp = data.profileExp || "";
       this.res = data.profileResume || "";
+      this.state = data.profileState || "";
     },
 
     viewJd(d) {
@@ -366,10 +433,13 @@ methods: {
       const loggedUserObject = JSON.parse(storedLoggedUser);
 
       this.modData = {
+        profileDist: this.dist,
+        profileState: this.state,
         profileId: this.profileId,
         profileUserId: this.userId,
         profileEmail: this.profileEmail,
         profileNm: this.name,
+        profileGender:this.gender,
         profileEdu: this.qual,
         profileDob: formattedDob,
         profileMob: this.mob,

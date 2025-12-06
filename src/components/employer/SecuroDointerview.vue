@@ -3,40 +3,42 @@
     <form id="appointment-form" role="form" method="post" action="#">
       <div class="col-md-12 col-sm-12">
         <div class="col-md-6 col-sm-6">
-          <b-message type="is-info" has-icon style="max-width: 550px;">
-            <h4>Securo JOBZ invites "Employer name?".</h4>
-            <p>Conduct Interview for the profiles who have shown interest</p>
-          </b-message>
+         <b-message type="is-info" has-icon style="font-size: 12px; max-width: 600px;">
+                <h5>Welcome to Securo JOBZ!!..</h5>
+                <h4>
+                  Employeer Email-ID :
+                  <a @click="viewJd()">{{ employerEmail }}</a>
+                </h4>
+                <h5>Click the above "Email-ID" to update</h5>
+              </b-message>
           <h4>Interview on Process</h4>
 
-          <div class="col-md-12 col-sm-12">
-            <div class="col-md-4 col-sm-4"><b>Opportunity Code</b></div>
-            <div class="col-md-8 col-sm-8"><b>Designation</b></div>
+         <div class="interview-box">
+           <div class="opp-header">
+  <div class="col-code-header"><b>Opportunity Code</b></div>
+  <div class="col-desig-header"><b>Designation</b></div>
+</div>
 
             <div v-for="(collapse, index) in postdata" :key="index">
-              <div class="col-md-12 col-sm-12 jd-header" style="cursor: pointer;" @click="toggleCollapse(index)">
-                <div class="col-md-4 col-sm-4" style="color: blueviolet">{{ collapse.jdCode }}</div>
-                <div class="col-md-8 col-sm-8">{{ collapse.desg }}</div>
-              </div>
+             <div class="jd-header" @click="toggleCollapse(index)">
+  <div class="col-code">{{ collapse.oppurtunityCode }}</div>
+  <div class="col-desig">{{ collapse.oppurtunityDesignation }}</div>
+</div>
 
               <transition name="slide-fade">
                 <div v-if="collapseStates[index]" >
-                  <!-- scroll-wrapper -->
-                   <!-- :class="{ 'scroll-enabled': collapse.profilers.length >= 2 }" -->
-                  <div class="div-table "  style="background-color: SeaShell;">
+                  <div class="div-table "  style="background-color: darksalmon;">
                     <div class="div-table-row1" style="background-color: #ccc ">
-                      <!-- <div class="col-md-12 col-sm-12"> -->
                       <div class="div-table-col5"><b>Profile ID</b></div>
                       <div class="div-table-col6"><b>Name</b></div>
-                      <!-- </div> -->
                     </div>
                    <div>
-                    <div class="div-table-row" v-for="(prof, ndx) in collapse.profilers" :key="ndx">
+                    <div class="div-table-row" v-for="(prof, ndx) in collapse.profiles" :key="ndx">
                       <div class="div-table-col5">
-                        <a @click="viewProfile(prof)" class="profile-link"> {{ prof.id }}</a>
+                        <a @click="viewProfile(prof)" class="profile-link"> {{ prof.profileId }}</a>
                       </div>
                       <div class="div-table-col6">
-                        {{ prof.name }}
+                        {{ prof.profileName }}
                       </div>
                     </div>
                     </div>
@@ -47,24 +49,7 @@
           </div>
         </div>
 
-        <!-- <div class="col-md-6 col-sm-6" v-if="visible">
-                <b-field label="Profile Id" Vertical>
-                    <b-input :disabled="disabledFlag" maxlength="15" v-model="profId"></b-input>
-                </b-field>
-
-                <b-field label="Name" Vertical>
-                    <b-input :disabled="disabledFlag" maxlength="100" v-model="profName"></b-input>
-                </b-field>
-
-                <b-field label="Gender" Vertical>
-                    <b-input :disabled="disabledFlag" maxlength="15" v-model="profGender"></b-input>
-                </b-field>
-            </div> -->
-
         <div class="col-md-6 col-sm-6" v-if="visible">
-          <!-- <div class="row">
-                        <h6><b>Important: </b>Details of Approved Profile</h6>
-                    </div> -->
           <h4 style="color: slateblue;">Profile Code - {{ profId }} </h4>
 
           <div class="div-table">
@@ -89,7 +74,7 @@
                   <b-label class="flright item">:</b-label>
                 </div>
                 <div class="col-md-7 col-sm-7">
-                  {{ profdob }}
+                  {{ toUI(profdob) }}
                 </div>
               </div>
               <div class="col-md-12 col-sm-12">
@@ -169,62 +154,28 @@
                   {{ profPincode }}
                 </div>
               </div>
-              <!-- <div class="col-md-12 col-sm-12">
-                <div class="col-md-4 col-sm-4">
-                  <b-label class="flright item">Interview Status</b-label>
-                </div>
-                <div class="col-md-1 col-sm-1">
-                  <b-label class="flright item">:</b-label>
-                </div>
-                <div class="col-sm-1 col-sm-1">
-                  <b-field horizontal>
-                    <b-select>
-                      <option value="1">Selected</option>
-                      <option value="2">Hold</option>
-                      <option value="3">Reject</option>
-                      <option value="3">Not attended</option>
-
-                    </b-select>
-                  </b-field>
-                </div>
-                <br>
-                <br>
-              </div> -->
               <div class="col-md-12 col-sm-12">
                 <div class="col-md-4 col-sm-4">
-                  <b-label class="flright item">Interview Status</b-label>
+                  <b-label class="flright item">Interview Status</b-label><span class="text-danger">*</span>
                 </div>
                 <div class="col-md-1 col-sm-1">
                   <b-label class="flright item">:</b-label>
                 </div>
                 <div class="col-md-7 col-sm-7">
                   <b-select v-model="interviewStatus" placeholder="Select status">
-                    <option value="1">Selected</option>
-                    <option value="2">Hold</option>
-                    <option value="3">Rejected</option>
-                    <option value="4">Not attended</option>
+                    <option value="Selected">Selected</option>
+                    <option value="Hold">Hold</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Not attended">Not attended</option>
                   </b-select>
                 </div>
                 <br>
                 <br>
               </div>
 
-              <!-- <div class="col-md-12 col-sm-12">
-                <div class="col-md-4 col-sm-4">
-                  <b-label class="flright item">Remarks</b-label>
-                </div>
-                <div class="col-md-1 col-sm-1">
-                  <b-label class="flright item">:</b-label>
-                </div>
-                <div class="col-md-7 col-sm-7">
-                  <b-field horizontal>
-                    <b-input v-model="address" type="textarea"></b-input>
-                  </b-field>
-                </div>
-              </div> -->
               <div class="col-md-12 col-sm-12">
                 <div class="col-md-4 col-sm-4">
-                  <b-label class="flright item">Remarks</b-label>
+                  <b-label class="flright item">Remarks</b-label><span class="text-danger">*</span>
                 </div>
                 <div class="col-md-1 col-sm-1">
                   <b-label class="flright item">:</b-label>
@@ -233,7 +184,11 @@
                   <b-input v-model="remarks" type="textarea" rows="2"></b-input>
                 </div>
               </div>
-
+               <b-button
+            class="button-wrapper"
+            type="is-success"
+            :disabled="!isFormValid"
+            @click="doSubmit">Submit</b-button>
             </div>
 
           </div>
@@ -245,6 +200,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -260,113 +216,74 @@ export default {
       profPincode: "",
       profAddress: "",
       profdob: "",
-
+      postdata: [], 
       collapseStates: [],
-      postdata: [
-        {
-          jdCode: 'AF47834',
-          desg: 'Mechanic',
-          profilers: [
-            {
-              id: 'JS91876345',
-              name: 'Uma',
-              gender: 'Female',
-              address: 'f-201 , hyderabad',
-              mobile: '9890987890',
-              state: 'Telangana',
-              district: 'Hyderabad',
-              pincode: '500049',
-              dob: '12-11-2002',
-              email: 'uma@gmail.com'
-
-            },
-            {
-              id: 'JS91876366',
-              name: 'Balu',
-              gender: 'Male',
-              address: 'Balaji appartments',
-              mobile: '9845645679',
-              state: 'Karnataka',
-              district: 'Bangalore',
-              pincode: '500032',
-              dob: '12-11-1993',
-              email: 'balu@gmail.com'
-
-            },
-            {
-              id: 'JS91876368',
-              name: 'Suresh',
-              gender: 'Male',
-              address: '12/89/0 , Divisha colony',
-              mobile: '6785679098',
-              state: 'AndraPradesh',
-              district: 'Godavari',
-              pincode: '67898',
-              dob: '09-01-1989',
-              email: 'suresh@gmail.com'
-            }
-          ]
-        },
-        {
-          jdCode: 'AF48623',
-          desg: 'Chemist',
-          profilers: [
-            {
-              id: 'JS92876368',
-              name: 'Ramesh',
-              gender: 'Male',
-              address: '294/1/2',
-              mobile: '7678954567',
-              state: 'Mumbai',
-              district: 'Thane',
-              pincode: '89065',
-              dob: '12-09-2002',
-              email: 'ramesh@gmail.com'
-            },
-            {
-              id: 'JS92876354',
-              name: 'Shylaja',
-              gender: 'Female',
-              address: 'Twin olives , Ammerpet',
-              mobile: '7656789043',
-              state: 'Telangana',
-              district: 'Hyderabad',
-              pincode: '50098',
-              dob: '20-03-1999',
-              email: 'shylaja@gmail.com'
-            }
-          ]
-        },
-        {
-          jdCode: 'AF17555',
-          desg: 'Marketing',
-          profilers: [
-            {
-              id: 'JS93876371',
-              name: 'Kamesh',
-              gender: 'Male',
-              address: 'Sr Nagar , Mythrivanam',
-              mobile: '8912908789',
-              state: 'Bhuvaneswar',
-              district: 'Odhisa',
-              pincode: '89098',
-              dob: '28-12-1998',
-              email: 'kamesh@gmail.com'
-            }
-          ]
-        }
-      ]
+      interviewStatus: "",
+      employerEmail: '',
+    remarks: "",
+      
     };
+    
   },
-  mounted() {
-    this.collapseStates = this.postdata.map(() => false);
+   computed: {
+    isFormValid() {
+      return (
+        this.interviewStatus.trim() !== "" &&
+        this.remarks.trim() 
+      );
+    },
   },
+   mounted() {
+    const storedLoggedUser = sessionStorage.getItem("loggedUser");
+    if (!storedLoggedUser) {
+      this.$router.push("");
+      return;
+    }
+
+    let loggedUserObject = null;
+    try {
+      loggedUserObject = JSON.parse(storedLoggedUser);
+    } catch (e) {
+      console.error("Error parsing logged user:", e);
+    }
+
+    if (!loggedUserObject || loggedUserObject.userType !== "E") {
+      this.$router.push("");
+      return;
+    }
+
+    this.userId = loggedUserObject.userId;
+    this.employerEmail = loggedUserObject.userEmail;
+       this.fetchProfilers();
+    },
   methods: {
+    
+    async fetchProfilers(){
+          try{
+            const res=await axios.get(`${this.$hostName}/api/v1/interview/opportunities/profiles`)
+            this.postdata = res.data;
+        this.collapseStates = this.postdata.map(() => false);
+
+    } catch (err) {
+        console.error("Fetch All Error:", err);
+    }
+  },
+  toUI(dateStr) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  return (
+    ("0" + d.getDate()).slice(-2) + "/" +
+    ("0" + (d.getMonth() + 1)).slice(-2) + "/" +
+    d.getFullYear()
+  );
+},
     viewProfile(p) {
       this.visible = true;
-      this.profId = p.id;
-      this.profName = p.name;
-      this.profGender = p.gender;
+      this.jdcode = p.oppurtunityCode;
+      this.designation = p.oppurtunityDesignation;
+      this.profId = p.profileId;
+      this.profName = p.profileName;
+      this.profGender = p.profileGender;
       this.profAddress = p.address;
       this.profMobile = p.mobile;
       this.profdob = p.dob;
@@ -378,12 +295,63 @@ export default {
     },
     toggleCollapse(index) {
       this.collapseStates[index] = !this.collapseStates[index];
-    }
-  }
+    },
+     async doSubmit() {
+     if (!this.isFormValid) {
+        this.$buefy.toast.open({
+          message: 
+             "⚠️ Please fill all required fields before submitting.",
+          type: "is-danger",
+          duration: 3000,
+        });
+        return;
+      }
+      this.modData = {
+        empEmail: this.employerEmail,
+        interviewId: 1,
+       employerId:5,
+       profileId:this.profId,
+       status:this.interviewStatus,
+       remark:this.remarks
+
+       
+      };
+
+      try {
+        let res;
+          res = await axios.post(
+            `${this.$hostName}/api/v1/interview-selection`,
+            this.modData
+          );
+          this.$buefy.toast.open({
+            message: " Record added successfully!",
+            type: "is-success",
+            duration: 3000,
+          });
+          return;
+
+      } catch (err) {
+        console.error("=== API ERROR ===");
+        console.log(err.response?.data);
+
+        this.$buefy.toast.open({
+          message: " Error saving record.",
+          type: "is-danger",
+          duration: 3000,
+        });
+      }
+    },
+  },
+  
+
+    
 }
 </script>
 
 <style scoped>
+.text-danger {
+  color: red;
+}
 .padding8 {
   padding-top: 8px;
 }
@@ -434,20 +402,60 @@ export default {
   transform: translateY(-10px);
 }
 .profile-list-scroll {
-  max-height: 200px; /* Adjust height as needed */
+  max-height: 200px; 
   overflow-y: auto;
   margin-top: 5px;
   border-top: 1px solid #ddd;
 }
-/* .scroll-wrapper {
-  max-height: none;
-  overflow-y: hidden;
+.opp-header {
+  display: flex;
+  width: 100%;
+  max-width: 450px;
+  background: #ccc;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-.scroll-wrapper.scroll-enabled {
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  padding-right: 4px;
-} */
+.opp-col-code,
+.opp-col-desig {
+  display: inline-block;    
+  margin-right: 20px;
+  padding: 2px 4px;
+}
+
+.jd-header {
+  display: flex;
+  width: 100%;
+  max-width: 450px;
+  background: #f3f3f3;
+  padding: 8px 10px;
+  margin: 6px 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.col-code-header,
+.col-code {
+  width: 150px;      
+  white-space: nowrap; 
+}
+
+.col-desig-header,
+.col-desig {
+  flex: 1;            
+  white-space: nowrap;
+}
+
+.col-code {
+  color: blueviolet;
+}
+.interview-box {
+  background: Seashell;
+  padding: 10px;
+  display: inline-block; 
+  border-radius: 4px;
+}
+
 </style>

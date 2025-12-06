@@ -10,12 +10,13 @@ import OfferView from '@/views/jobseeker/OfferView.vue'
 import IntstatusView from '@/views/jobseeker/IntstatusView.vue'
 import ConfirmView from '@/views/jobseeker/ConfirmView.vue'
 import EmployerAccountView from '@/views/employer/EmployerAccountView.vue'
-//import EmployerAccount from '../components/employer/EmployerAccount.vue'
-//import SecuroPublish from '../components/employer/SecuroPublish.vue'
 import SecuroPublishView from '@/views/employer/SecuroPublishView.vue'
-import SecuroJobseekerView from '@/views/employer/SecuroJobseekerView.vue'
 import SecuroDointerview from '@/views/employer/SecuroDointerview.vue'
 import SecuroMyaccountView from '@/views/employer/SecuroMyaccountView.vue'
+import SecuroProfAppliedView from '@/views/employer/SecuroProfAppliedView.vue'
+import SecuroProfilesSelectedView from '@/views/employer/SecuroProfilesSelectedView.vue'
+import SecuroProfilesAppointedView from '@/views/employer/SecuroProfilesAppointedView.vue'
+import SecuroScheduleView from '@/views/employer/SecuroScheduleView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -77,11 +78,11 @@ const router = createRouter({
       name: 'publish',
       component: SecuroPublishView,
     },
-    {
-      path: '/employer/jobseeker',
-      name: 'empjobseeker',
-      component: SecuroJobseekerView,
-    },
+    // {
+    //   path: '/employer/jobseeker',
+    //   name: 'empjobseeker',
+    //   component: SecuroJobseekerView,
+    // },
     {
       path: '/employer/dointerview',
       name: 'dointerview',
@@ -92,7 +93,26 @@ const router = createRouter({
       name: 'employeemyaccount',
       component: SecuroMyaccountView,
     },
-
+    {
+      path: '/employer/profapplied',
+      name: 'profapplied',
+      component: SecuroProfAppliedView,
+    },
+{
+      path: '/employeer/profselcted',
+      name: 'profconf1',
+      component: SecuroProfilesSelectedView,
+    },
+    {
+      path: '/employeer/profappt',
+      name: 'profappt',
+      component: SecuroProfilesAppointedView,
+    },
+    {
+      path: '/employer/schedulelist',
+      name: 'jobseekers',
+      component: SecuroScheduleView,
+    },
   ],
 })
 

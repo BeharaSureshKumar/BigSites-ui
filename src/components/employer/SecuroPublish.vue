@@ -3,18 +3,15 @@
         <form id="appointment-form" role="form" method="post" action="#">
             <div class="col-md-12 col-sm-12">
                 <div class="col-md-6 col-sm-6">
-                     <b-message type="is-info" has-icon style="max-width: 550px;">
-                        <h4>Securo JOBZ invites "Employer name?".</h4>
-                        <p>To view oppurtunies published </p>
-                    </b-message>
-                    <div class = "row">
-                        <ul class="nav navbar-nav navbar-center"> 
-                            <li><RouterLink to="/publish">Opportunities(3)</RouterLink></li>
-                            <li><RouterLink to="/profapplied">Profiles(6)</RouterLink></li>
-                            <li><RouterLink to="/profconf1">Selected(2)</RouterLink></li>
-                            <li><RouterLink to="/profappt">Appointed(1)</RouterLink></li>
-                        </ul>
-                    </div>
+                     <b-message type="is-info" has-icon style="font-size: 12px; max-width: 600px;">
+                <h5>Welcome to Securo JOBZ!!..</h5>
+                <h4>
+                  Employeer Email-ID :
+                  <a @click="viewJd()">{{ employerEmail }}</a>
+                </h4>
+                <h5>Click the above "Email-ID" to update</h5>
+              </b-message>
+                    
                     <div class = "row">
                         <h4>Opportunities Published</h4>
                     </div>
@@ -139,6 +136,7 @@ import axios from "axios";
 export default {
     data() {
         return {
+            employerEmail:"",
             visible: false,
             jdcode : "",
             postDate : "",
@@ -185,6 +183,26 @@ toUI(dateStr) {
 }
 },
 mounted() {
+    const storedLoggedUser = sessionStorage.getItem("loggedUser");
+    if (!storedLoggedUser) {
+      this.$router.push("");
+      return;
+    }
+
+    let loggedUserObject = null;
+    try {
+      loggedUserObject = JSON.parse(storedLoggedUser);
+    } catch (e) {
+      console.error("Error parsing logged user:", e);
+    }
+
+    if (!loggedUserObject || loggedUserObject.userType !== "E") {
+      this.$router.push("");
+      return;
+    }
+
+    this.userId = loggedUserObject.userId;
+    this.employerEmail=loggedUserObject.userEmail;
   this.fetchAll();
 }
 };

@@ -3,26 +3,14 @@
     <form id="appointment-form" role="form" method="post" action="#">
       <div class="col-md-12 col-sm-12">
         <div class="col-md-6 col-sm-6">
-          <b-message type="is-info" has-icon style="max-width: 550px;">
-            <h4>Securo JOBZ.</h4>
-            <p>Click one of the below opportunities to view or edit</p>
-          </b-message>
-          <div class="row">
-            <ul class="nav navbar-nav navbar-center">
-              <li>
-                <!-- Opportunities(3) -->
-                <RouterLink to="/publish">Opportunities(3)</RouterLink>
-              </li>
-              <li>
-                <!-- Profiles(6) -->
-                <RouterLink to="/profselected">Profiles(6)</RouterLink>
-              </li>
-              <li>
-                <!-- Selected(2) -->
-                <RouterLink to="/profconf1">Selected(2)</RouterLink>
-              </li>
-            </ul>
-          </div>
+         <b-message type="is-info" has-icon style="font-size: 12px; max-width: 600px;">
+                <h5>Welcome to Securo JOBZ!!..</h5>
+                <h4>
+                  Employeer Email-ID :
+                  <a @click="viewJd()">{{ employerEmail }}</a>
+                </h4>
+                <h5>Click the above "Email-ID" to update</h5>
+              </b-message>
 
            <div class = "row">
                         <h4>Opportunities Published</h4>
@@ -179,6 +167,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      employerEmail:"",
       oppurtunityEmployerId: "",
       designation: "",
       email: "",
@@ -216,8 +205,53 @@ export default {
       );
     },
   },
-  
+   mounted() {
+    const storedLoggedUser = sessionStorage.getItem("loggedUser");
+    if (!storedLoggedUser) {
+      this.$router.push("");
+      return;
+    }
+
+    let loggedUserObject = null;
+    try {
+      loggedUserObject = JSON.parse(storedLoggedUser);
+    } catch (e) {
+      console.error("Error parsing logged user:", e);
+    }
+
+    if (!loggedUserObject || loggedUserObject.userType !== "E") {
+      this.$router.push("");
+      return;
+    }
+
+    this.userId = loggedUserObject.userId;
+    this.employerEmail=loggedUserObject.userEmail;
+  this.fetchEmpBasedOnUserId(this.userId).then(() => {
+    
+    // 🔵 after empId is available, NOW fetch full details
+    if (this.empId) {
+      this.fetchAll(this.empId);
+    }
+
+  });
+      // } 
+    // this.fetchEmployer(this.empId);
+    // this.fetchEmpBasedOnUserId(this.userId);
+  },
     methods: {
+      async fetchEmpBasedOnUserId(id) {
+      console.log("fetchEmpBasedOnUserId",id);
+      const url = this.$hostName + "/api/v1/employers/user/" + id;
+      try {
+        const res = await axios.get(url);
+        this.postdata = res.data;
+        this.empId = res.data.empId;
+        console.log("JSON.stringify(res.data)",JSON.stringify(res.data));
+        sessionStorage.setItem("empDetails", JSON.stringify(res.data));
+      } catch (err) {
+        console.error("Error fetching emp: ", err);
+      }
+    },
       async fetchAll() {
   try {
     const res = await axios.get(`${this.$hostName}/api/v1/oppurtunity`);
@@ -240,7 +274,7 @@ export default {
   this.postDate = d.oppurtunityCreateDate;
 
   // Needed for PATCH update
-  this.oppurtunityEmployerId = d.oppurtunityId;
+  this.oppurtunityEmployerId = d.empId;
 },
    
     formatDate(date) {
@@ -321,7 +355,8 @@ toUI(dateStr) {
       
       this.modData = {
         oppurtunityCode: this.code,
-        oppurtunityEmployerId: this.oppurtunityEmployerId || 1,
+        oppurtunityEmployerId:this.empId,
+       // oppurtunityEmployerId: this.oppurtunityEmployerId || 1,
        oppurtunityDesignation: this.designation,
        oppurtunityJobDescription: this.description,
        oppurtunityLastDate: this.formatDate(this.lastDate),
@@ -373,9 +408,9 @@ toUI(dateStr) {
     },
   },
 
- mounted() {
-  this.fetchAll();
-},
+//  mounted() {
+//   this.fetchAll();
+// },
 };
 </script>
 

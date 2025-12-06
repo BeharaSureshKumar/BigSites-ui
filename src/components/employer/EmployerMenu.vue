@@ -12,7 +12,7 @@
         <ul class="list-inline">
           <li><router-link to="/employer/myaccount" exact-active-class="active">My Account</router-link></li>
           <li><router-link to="/employer/dointerview" exact-active-class="active">Conduct Interview</router-link></li>
-          <li><router-link to="/employer/jobseeker" exact-active-class="active">Schedule Interview</router-link></li>
+          <li><router-link to="/employer/schedulelist" exact-active-class="active">Schedule Interview</router-link></li>
           <li><router-link to="/employer/jdpost" exact-active-class="active">Publish Opportunity</router-link></li>
           <li><router-link to="/employer/publish" exact-active-class="active">Job Description</router-link></li>
    <li><i class="fa fa-sign-out logoutsize"></i> <router-link to="/" >Logout</router-link></li>
