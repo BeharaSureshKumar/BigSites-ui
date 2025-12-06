@@ -7,14 +7,7 @@
               <h4>Securo JOBZ invites "Employer name?".</h4>
                   <p>Appointed list of profiles for the Opportunities interviewed</p>
           </b-message>
-          <div class = "row">
-              <ul class="nav navbar-nav navbar-center"> 
-                    <li><RouterLink to="/publish">Opportunities(3)</RouterLink></li>
-                    <li><RouterLink to="/profapplied">Profiles(6)</RouterLink></li>
-                    <li><RouterLink to="/profconf1">Selected(2)</RouterLink></li>
-                    <li><RouterLink to="/profappt">Appointed(1)</RouterLink></li>
-            </ul>
-          </div>         
+                  
           <div class = "row">
               <h4>Profiles Appointed</h4>
           </div>

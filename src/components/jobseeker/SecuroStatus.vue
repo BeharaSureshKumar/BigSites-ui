@@ -9,9 +9,7 @@
                         <h5>Status for the interview Attended</h5>
                     </b-message>
                      <h4 >Selected Status</h4>
-                    <!--<b-button type="is-success" @click="doAdd">Add</b-button>-->
-
-                    <div class="div-table" style="background-color: SeaShell;" >
+                    <div class="heading" style="background-color: SeaShell;" >
                         <div class="div-table-row" style="background-color: #ccc;">
                             <div class="div-table-col3"><b>Opportunity.Code</b></div>
                             <div class="div-table-col6"><b>Employer.Name</b></div>
@@ -20,21 +18,18 @@
   
                         </div>
 
-                        <div class="div-table-row" v-for="d in allpostData" :key="d.profileCd">
+                        <div class="div-table-row" v-for="d in allpostData" :key="d.id">
                             <div class="div-table-col3">
-                                <!-- <RouterLink :to="`/jobseekerview/${d.id}`" to="/"><b>{{ d.jd_code }}</b></RouterLink> -->
-                                <a @click="viewJd(d)"><span style="color: blueviolet">{{ d.profileCd }}</span></a>
+                                <a @click="viewJd(d)"><span style="color: blueviolet">{{ d.oppurtunityCode }}</span></a>
                             </div>
                             <div class="div-table-col6">{{ d.profileNm}}</div>
-                            <div class="div-table-col1">{{ d.profileEdu}}</div>
+                            <div class="div-table-col1">{{ d.oppurtunityDesignation}}</div>
   
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-6 col-sm-6" v-if="visible">
-                   
-                    
                     <h4 >Opportunity.Code :  {{ opCode }}</h4>
                     <div class="row">
                     <div class="div-table">
@@ -165,108 +160,45 @@ export default {
             profileId: "",
             jsName:"",
             allpostData:[],
-            // postdata: [{
-            //     interview_select_id: 1,
-            //     oppurtunity_code: 'AF47834',
-            //     employer_name: 'AFC India Limited',
-            //     oppurtunity_designation: 'Manager',
-            //     interview_select_remark: 'Congratulations!, We have selected your profile for the post of Manager, please meet our Hr at AFC India Limited office with all your credentials before 15-06-2025. ',
-            //     interview_select_create_date: '05-05-2025',
-            //     interview_select_profile_id: 'JS91876345',
             
-            //     jd_confirm: 'No'
-            // }, {
-            //     interview_select_id: 2,
-            //     oppurtunity_code: 'AF47855',
-            //     employer_name: 'Britania Limited',
-            //     oppurtunity_designation: 'Sales Head',
-            //     interview_select_remark: 'Congratulations!, We have selected your profile for the post of Sales Head , please meet our Hr at Britania Limited office with all your credentials before 18-06-2025. ',
-            //     interview_select_create_date: '05-05-2025',
-            //     interview_select_profile_id: 'JS91876345',
-             
-            //     jd_confirm: 'Yes'
-            // }],
         }
     },
     mounted() {
       this.profileId = sessionStorage.getItem('profileId');
-       //this.jsName = sessionStorage.getItem('jsName');
-        // this.jsName=sessionStorgage.getItem('jsName');
-        // if (sessionStorage.getItem('loggedEmail') === 'admin@afcindia.com') {
-        //     this.canApprove = true;
-        // }
-        //this.fetchProfiles();
-        // const profId = sessionStorage.getItem('profileId');  
-//   if (profId) {
-    this.fetchProfiles();
+      
+    this.fetchOpp();
 //   }
     },
     methods: {
-//         async fetchProfiles(id) {
-//             console.log('hostName',this.$hostName);
-//       const url = this.$hostName + '/api/v1/jobseekers/1';
-// console.log("iddd",id);
-//       await axios.get(url)
-//       .then(res => {
-//         console.log('=====>>> ', res.data)
-//         this.allpostData = res.data
-//       })
-//       .catch(err => {
-//         this.allpostData = [];
-//         console.error('Error fetching profiles: ', err)
-//       })
-//     },
-async fetchProfiles(id) {
-  try {
-    const url = this.$hostName + '/api/v1/jobseekers/'+id;
-    const res = await axios.get(url);
-    console.log('=====>>> ', res.data);
 
-    // ensure it's always an array
-    this.allpostData = Array.isArray(res.data) ? res.data : [res.data];
-  } catch (err) {
-    this.allpostData = [];
-    console.error('Error fetching profiles: ', err);
-  }
-},
-        viewJd(d) {
-            this.visible = true;
-            this.disabledFlag = false;
-            this.profileCd = d.profileCd;
-  this.empname = d.profileNm;   // using profileNm as Employer Name substitute
-  this.designation = d.profileEdu; // maybe use Education as placeholder
-            // this.profileCd = d.profileCd;
-            // this.empname = d.employer_name;
-         
-            // this.designation = d.oppurtunity_designation;
-   
-            this.jdmsg = d.interview_select_remark;
-            this.proId = d.interview_select_profile_id;
-            this.intvDt = d.interview_select_create_date;
-          
-          
-            this.cbConfirm = d.jd_confirm;
-        },
+async fetchOpp() {
+      const url = this.$hostName + "/api/v1/oppurtunity";
+
+      try {
+        const res = await axios.get(url);
+
+        this.allpostData = res.data;
+        console.log("res",res.data);
+      } catch (err) {
+        console.error("Error fetching opportunities:", err);
+      }
+    },
+         populateFormFields(d) {
+      if (!d) return;
+      this.opCode = d.oppurtunityCode || "";
+      this.designation=d.oppurtunityDesignation
+      
+    },
+
+    viewJd(d) {
+      this.visible = true;
+      this.oppurtunityId = d.oppurtunityId;
+
+      this.populateFormFields(d);
+
+     
+    },
         doSubmit() {
-            // designation: "",
-            // empname: "",
-            // location: "",
-            // jdmsg: "",
-            // opCode: "",
-            // confDt: "",
-            // proId: "",
-            // intvDt: "",
-            // this.opCode = d.oppurtunity_code;
-            // this.empname = d.employer_name;
-         
-            // this.designation = d.oppurtunity_designation;
-   
-            // this.jdmsg = d.interview_select_remark;
-            // this.proId = d.interview_select_profile_id;
-            // this.intvDt = d.interview_select_create_date;
-          
-          
-            // this.cbConfirm = d.jd_confirm;
             this.profilesData.profileCd=this.profileCd
             console.log("Submit Button clicked !!")
         },
@@ -286,5 +218,60 @@ async fetchProfiles(id) {
 .item {
     font-weight: 700;
     display: flex;
+}
+.heading{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 700px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: seashell;
+  font-family: Arial, sans-serif;
+}
+
+.div-table-row {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  padding: 6px 10px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.div-table-row:last-child {
+  border-bottom: none;
+}
+
+.div-table-row.header {
+  background-color: #ccc;
+  font-weight: bold;
+}
+
+.div-table-col3 {
+  width: 30%;  /* Opportunity Code */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.div-table-col6 {
+  width: 50%;  /* Designation */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.div-table-col5 {
+  width: auto;  /* Last Date */
+  text-align: right;
+  white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+.opp-code-value {
+  color: blueviolet;
+  cursor: pointer;
 }
 </style>

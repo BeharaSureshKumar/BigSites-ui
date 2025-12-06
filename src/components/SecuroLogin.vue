@@ -68,7 +68,8 @@ export default {
             targetUrl: "",
             errMessage: "",
             logemail: "",
-            logpassword: ""
+            logpassword: "",
+            successMessage: "",
         }
     },
     mounted() {
@@ -101,12 +102,24 @@ export default {
                 switch (res.data.userType) {
                     case "A":   // Agent
                         this.targetUrl = '/agent/myaccount';
+                        this.$buefy.toast.open({
+            message: "Welcome Agent! Successfully logged in.",
+            type: "is-success"
+        });
                         break;
                     case "J":   // Jobseeker
                         this.targetUrl = '/jobseeker/details';
+                        this.$buefy.toast.open({
+            message: "Welcome Job Seeker! Successfully logged in.",
+            type: "is-success"
+        });
                         break;
                         case "E":   // Employee
                         this.targetUrl = '/employer/myaccount';
+                        this.$buefy.toast.open({
+            message: "Welcome User! Successfully logged in.",
+            type: "is-success",
+        });
                         break;
                     default:
                         this.errMessage = "User type not recognized.";
@@ -114,14 +127,29 @@ export default {
                 }
 
                 this.$router.push(this.targetUrl);
+                // 🔹 Show SUCCESS popup
+        // this.$buefy.toast.open({
+        //     message: "Successfully logged in!",
+        //     type: "is-success",
+        //     duration: 2000, // shows for 2 seconds
+        //     position: "is-top" // top of the page
+        // });
 
-            } catch (err) {
-                this.errMessage = "Service cannot be reached or returned an error...";
-                console.error('Error fetching user: ', err);
-            }
-        }
+        // // 🔹 Redirect after small delay
+        // setTimeout(() => {
+        //     this.$router.push(this.targetUrl);
+        // }, 1000);
+
+    } catch (err) {
+        this.$buefy.toast.open({
+            message: "Service cannot be reached...",
+            type: "is-danger"
+        });
+        console.error('Error fetching user: ', err);
+    }
     
     }
+}
 }
 </script>
 

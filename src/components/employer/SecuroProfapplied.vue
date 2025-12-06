@@ -11,22 +11,7 @@ modified
             <h4>Securo JOBZ invites "Employer name?".</h4>
             <p>Profiles show intrested for opportunities published</p>
           </b-message>
-          <div class="row">
-            <ul class="nav navbar-nav navbar-center">
-              <li>
-                <RouterLink to="/publish">Opportunities(3)</RouterLink>
-              </li>
-              <li>
-                <RouterLink to="/profapplied">Profiles(6)</RouterLink>
-              </li>
-              <li>
-                <RouterLink to="/profconf1">Selected(2)</RouterLink>
-              </li>
-              <li>
-                <RouterLink to="/profappt">Appointed(1)</RouterLink>
-              </li>
-            </ul>
-          </div>
+          
           <h4>Profiles Applied</h4>
 
           <div class="col-md-12 col-sm-12">
